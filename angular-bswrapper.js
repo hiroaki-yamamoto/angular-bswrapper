@@ -58,7 +58,7 @@ bs-button:
             ok: the text body of "ok" button
             size: size of the dialog i.e. large, or small
             title: title of the dialog
-        Events:
+        Upstream Events (You can get the events via $on):
             *.bs.modal(event,id,e): alias of *.bs.modal on bootstrap. But note that event is angular's event object, id is id attirbute, and e is bootstrap's event object.
             (yes|no|ok|cancel|close)Clicked(event,id): thie event is emmited when the corresponding button is clicked.
         Note:
@@ -84,6 +84,9 @@ bs-button:
                             }
                         }
                 }
+        Downstream Events (Broadcasting the event via $broadcast, you can obtain the corresponding effects.):
+            openModal(id): open modal dialog of which id is "id".
+            closeModal(id): close modal dialog of which id is "id".
         Example:
             <bs-modal title="HelloWorld" id="exampleModal" ok="Close" backdrop="static">Hello World!!</bs-modal>
     */
@@ -124,12 +127,26 @@ bs-button:
                 $rootScope.$apply(function(){$rootScope.$broadcast("loaded.bs.modal",scope.id,e)})
             })
         },
-        "controller":function($scope){
+        "controller":function($scope,$element,$timeout){
             $scope.yes=function(){$scope.$emit("yesClicked",$scope.id)}
             $scope.no=function(){$scope.$emit("noClicked",$scope.id)}
             $scope.ok=function(){$scope.$emit("okClicked",$scope.id)}
             $scope.cancel=function(){$scope.$emit("cancelClicked",$scope.id)}
             $scope.close=function(){$scope.$emit("closeClicked",$scope.id)}
+            $scope.$on("openModal",function(event,id){
+                //Prevent multiple-time calling.
+                if(event.defaultPrevented) return
+                // WIP $digit avoiding trick
+                if(id==$scope.id) $timeout(function(){$element.modal("show"}},0,false)
+                event.preventDefault()
+            })
+            $scope.$on("closeModal",function(event,id){
+                //Prevent multiple-time calling.
+                if(event.defaultPrevented) return
+                // WIP $digit avoiding trick
+                if(id==$scope.id) $timeout(function(){$element.modal("hide")},0,false)
+                event.preventDefault()
+            })
         },
         "template":"<div class=\"modal fade\" role=\"dialog\"><div class=\"modal-dialog\" ng-class=\"{'modal-lg':size==='large','modal-sm':size==='small'}\"><div class=\"modal-content\"><div class=\"modal-header\"><h4>{{title}}</h4></div><div class=\"modal-body\" ng-transclude></div><div class=\"modal-footer\"><button class=\"btn btn-primary\" ng-click=\"yes()\" data-dismiss=\"modal\" ng-if=\"yesBody&&!okBody\">{{yesBody}}</button><button class=\"btn\" ng-click=\"no()\" ng-class=\"{'btn-warning':cancelBody}\" data-dismiss=\"modal\" ng-if=\"noBody&&!okBody\">{{noBody}}</button><button class=\"btn\" ng-click=\"cancel()\" data-dismiss=\"modal\" ng-if=\"cancelBody&&!okBody\">{{cancelBody}}</button><button class=\"btn\" ng-click=\"ok()\" data-dismiss=\"modal\" ng-if=\"okBody\">{{okBody}}</button><button class=\"btn\" ng-click=\"close()\" data-dismiss=\"modal\" ng-if=\"!okBody&&!yesBody&&!noBody&&!cancelBody\">Close</button></div></div></div></div>"
         }
