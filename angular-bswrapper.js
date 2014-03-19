@@ -134,18 +134,12 @@ bs-button:
             $scope.cancel=function(){$scope.$emit("cancelClicked",$scope.id)}
             $scope.close=function(){$scope.$emit("closeClicked",$scope.id)}
             $scope.$on("openModal",function(event,id){
-                //Prevent multiple-time calling.
-                if(event.defaultPrevented) return
                 // WIP $digit avoiding trick
-                if(id==$scope.id) $timeout(function(){$element.modal("show"}},0,false)
-                event.preventDefault()
+                if(id==$scope.id) $timeout(function(){$element.modal("show")},0,false)
             })
             $scope.$on("closeModal",function(event,id){
-                //Prevent multiple-time calling.
-                if(event.defaultPrevented) return
                 // WIP $digit avoiding trick
                 if(id==$scope.id) $timeout(function(){$element.modal("hide")},0,false)
-                event.preventDefault()
             })
         },
         "template":"<div class=\"modal fade\" role=\"dialog\"><div class=\"modal-dialog\" ng-class=\"{'modal-lg':size==='large','modal-sm':size==='small'}\"><div class=\"modal-content\"><div class=\"modal-header\"><h4>{{title}}</h4></div><div class=\"modal-body\" ng-transclude></div><div class=\"modal-footer\"><button class=\"btn btn-primary\" ng-click=\"yes()\" data-dismiss=\"modal\" ng-if=\"yesBody&&!okBody\">{{yesBody}}</button><button class=\"btn\" ng-click=\"no()\" ng-class=\"{'btn-warning':cancelBody}\" data-dismiss=\"modal\" ng-if=\"noBody&&!okBody\">{{noBody}}</button><button class=\"btn\" ng-click=\"cancel()\" data-dismiss=\"modal\" ng-if=\"cancelBody&&!okBody\">{{cancelBody}}</button><button class=\"btn\" ng-click=\"ok()\" data-dismiss=\"modal\" ng-if=\"okBody\">{{okBody}}</button><button class=\"btn\" ng-click=\"close()\" data-dismiss=\"modal\" ng-if=\"!okBody&&!yesBody&&!noBody&&!cancelBody\">Close</button></div></div></div></div>"
