@@ -195,7 +195,7 @@ Tab:
             this.panelInfoList=[]
             $scope.panelInfoList=this.panelInfoList
         },
-        "template":"<div class=\"bsWrap-tab\"><ul class=\"nav nav-tabs\"><li ng-repeat=\"panelInfo in panelInfoList\" ng-class=\"{active: panelInfo.active}\"><a href=\"#{{panelInfo.id}}\" data-toggle=\"tab\">{{panelInfo.title}}</a></li></ul><div class=\"tab-content\" ng-transclude></div></div>"
+        "template":"<div class=\"bsWrap-tab\"> <ul class=\"nav nav-tabs\"> <li ng-repeat=\"panelInfo in panelInfoList\" ng-class=\"{active: panelInfo.active}\"> <a href=\"#{{panelInfo.id}}\" data-toggle=\"tab\">{{panelInfo.title}}</a> </li> </ul> <div class=\"tab-content\" ng-transclude></div></div>"
     }
 })
 .directive("bsTabPane",function(){
