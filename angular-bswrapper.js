@@ -1,3 +1,20 @@
+/*
+Requirements to use this wrapper:
+*) ONLY THIS SCRIPT! No dynamic loading of template directory.
+    template directory is just "human-readable" template.
+
+How to use it:
+1. insert this snippet berfore including your script:
+    <script type="application/javascript" src="[your bswrapper path]"></script>
+    CAUTION: you shouldn't do like this because Content-Type is not "application/javascript":
+    <script type="application/javascript" src="https://raw.githubusercontent.com/hysoftware/angular-bswrapper/master/angular-bswrapper.js"></script>
+    
+2. Change your angular declaration like this:
+    app=angular,module("SimpleWebApp",["bswrapper"])
+
+3. Let's use!
+*/
+
 angular.module("bswrapper",[])
 /*
 bs-button:
@@ -58,6 +75,7 @@ bs-button:
             ok: the text body of "ok" button
             size: size of the dialog i.e. large, or small
             title: title of the dialog
+            (yes|no|cancel|ok|close)Disabled: (expression) disable flag. wrapper of ngDisabled for each buttons.
         Upstream Events (You can get the events via $on):
             *.bs.modal(event,id,e): alias of *.bs.modal on bootstrap. But note that event is angular's event object, id is id attirbute, and e is bootstrap's event object.
             (yes|no|ok|cancel|close)Clicked(event,id): thie event is emmited when the corresponding button is clicked.
@@ -100,7 +118,12 @@ bs-button:
             "okBody":"@ok",
             "cancelBody":"@cancel",
             "size":"@",
-            "title":"@"
+            "title":"@",
+            "yesDisabled":"&",
+            "noDisabled":"&",
+            "cancelDisabled":"&",
+            "okDisabled":"&",
+            "closeDisabled":"&",
         },
         "replace":true,
         "transclude":true,
@@ -142,7 +165,7 @@ bs-button:
                 if(id==$scope.id) $timeout(function(){$element.modal("hide")},0,false)
             })
         },
-        "template":"<div class=\"modal fade\" role=\"dialog\"><div class=\"modal-dialog\" ng-class=\"{'modal-lg':size==='large','modal-sm':size==='small'}\"><div class=\"modal-content\"><div class=\"modal-header\"><h4>{{title}}</h4></div><div class=\"modal-body\" ng-transclude></div><div class=\"modal-footer\"><button class=\"btn btn-primary\" ng-click=\"yes()\" data-dismiss=\"modal\" ng-if=\"yesBody&&!okBody\">{{yesBody}}</button><button class=\"btn\" ng-click=\"no()\" ng-class=\"{'btn-warning':cancelBody}\" data-dismiss=\"modal\" ng-if=\"noBody&&!okBody\">{{noBody}}</button><button class=\"btn\" ng-click=\"cancel()\" data-dismiss=\"modal\" ng-if=\"cancelBody&&!okBody\">{{cancelBody}}</button><button class=\"btn\" ng-click=\"ok()\" data-dismiss=\"modal\" ng-if=\"okBody\">{{okBody}}</button><button class=\"btn\" ng-click=\"close()\" data-dismiss=\"modal\" ng-if=\"!okBody&&!yesBody&&!noBody&&!cancelBody\">Close</button></div></div></div></div>"
+        "template":"<div class=\"modal fade\" role=\"dialog\"><div class=\"modal-dialog\" ng-class=\"{'modal-lg':size==='large','modal-sm':size==='small'}\"><div class=\"modal-content\"><div class=\"modal-header\"><h4>{{title}}</h4></div><div class=\"modal-body\" ng-transclude></div><div class=\"modal-footer\"><button class=\"btn btn-primary\" ng-click=\"yes()\" ng-disabled=\"$eval(yesDisabled)\" data-dismiss=\"modal\" ng-if=\"yesBody&&!okBody\">{{yesBody}}</button><button class=\"btn\" ng-click=\"no()\" ng-disabled=\"$eval(noDisabled)\" ng-class=\"{'btn-warning':cancelBody}\" data-dismiss=\"modal\" ng-if=\"noBody&&!okBody\">{{noBody}}</button><button class=\"btn\" ng-click=\"cancel()\" ng-disabled=\"$eval(cancelDisabled)\" data-dismiss=\"modal\" ng-if=\"cancelBody&&!okBody\">{{cancelBody}}</button><button class=\"btn\" ng-click=\"ok()\" ng-disabled=\"$eval(okDisabled)\" data-dismiss=\"modal\" ng-if=\"okBody\">{{okBody}}</button><button class=\"btn\" ng-disabled=\"$eval(closeDisabled)\" ng-click=\"close()\" data-dismiss=\"modal\" ng-if=\"!okBody&&!yesBody&&!noBody&&!cancelBody\">Close</button></div></div></div></div>"
         }
 }])
 /*

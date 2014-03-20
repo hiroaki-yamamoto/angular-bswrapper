@@ -1,5 +1,10 @@
 angular.module("exampleApp",["bswrapper"])
     .controller("exampleControl",["$scope",function($scope){
+        $scope.disabled={
+            "yes":false,
+            "no":false,
+            "cancel":false
+        }
         $scope.$on("buttonClicked",function(event,id){
             switch(id){
                 case "attributeModal":

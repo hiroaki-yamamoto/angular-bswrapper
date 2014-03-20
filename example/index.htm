@@ -18,8 +18,44 @@
 <body ng-controller="exampleControl">
     <h1>Modal Dialog</h1>
     <bs-button type="primary" size="large" id="attributeModal" toggle="modal" target="#exampleModal">Modal (Attribute trigger)</bs-button>
-    <bs-button type="primary" size="large" id="controlModal" toggle="modal" target="#exampleModal">Modal (JS trigger)</bs-button>
+    <bs-button type="primary" size="large" id="controlModal" toggle="modal">Modal (JS trigger)</bs-button>
+    <bs-button type="primary" size="large" id="modalWithButtonDisableButton" toggle="modal" target="#modalWithButtonDisable">Modal with button Disabled</bs-button>
     <bs-modal title="HelloWorld" id="exampleModal" backdrop="static">Hello World!!</bs-modal>
+    <bs-modal title="Modal with Disable Buttons"
+              id="modalWithButtonDisable"
+              yes="Yes!"
+              no="No!"
+              cancel="cancel"
+              yes-disabled="disabled.yes"
+              no-disabled="disabled.no"
+              cancel-disabled="disabled.cancel">
+              <h5>State Edit</h5>
+              <div class="form-group">
+                  <label><input type="checkbox" ng-model="disabled.yes" id="yedDisabled" /> Disable Yes! button</label>
+              </div>
+              <div class="form-group">
+                  <label><input type="checkbox" ng-model="disabled.no" id="noDisabled" /> Disable No! button</label>
+              </div>
+              <div class="form-group">
+                  <label> <input type="checkbox" ng-model="disabled.cancel" id="cancelDisabled" /> Disable Cancel! button</label>
+              </div>
+              <h5>State View</h5>
+              <table>
+                  <tr>
+                      <td>YesDisabled</td>
+                      <td>{{disabled.yes}}</td>
+                  </tr>
+                  <tr>
+                      <td>NoDisabled</td>
+                      <td>{{disabled.no}}</td>
+                  </tr>
+                  <tr>
+                      <td>CancelDisabled</td>
+                      <td>{{disabled.cancel}}</td>
+                  </tr>
+              </table>
+    </bs-modal>
+    
     <h1>Tab</h1>
     <bs-tab>
         <bs-tab-pane id="test1" title="Test 1" active="true"><h4>Test 1</h4><p>Test 1</p></bs-tab-pane>
