@@ -213,3 +213,38 @@ Tab:
         "template":"<div class=\"tab-pane\" ng-class=\"{active:panelInfo.active}\" ng-transclude></div>"
     }
 })
+/*
+Jumbotron
+Example:
+    <bs-jumbotron>
+        <bs-container>
+            <h1>Hello</h1>
+            <p>World</p>
+        </bs-container>
+    </bs-jumbotron>
+Note: If you want to do something with CSS, you can do it by specifying id attribute and assign the style to it.
+*/
+.directive("bsJumbotron",function(){
+    return {
+        "restrict":"E",
+        "replace":true,
+        "transclude":true,
+        "template":"<div class=\"jumbotron\" ng-transclude></div>"
+    }
+})
+/*
+Container
+Example:
+<bs-container>
+    <h1>Hello</h1>
+    <p>World</p>
+</bs-container>
+*/
+.directive("bsContainer",function(){
+    return{
+        "restrict":"E",
+        "replace":true,
+        "transclude":true,
+        "template":"<div class=\"container\" ng-transclude></div>"
+    }
+})
